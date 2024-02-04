@@ -140,6 +140,12 @@ const updateUser = async (req, res) => {
         user.password = await bcrypt.hash(body.password, 10);
       }
 
+      // Check mobile number length before updating
+      if (!userhelpers.checkMobileLength(body.MobileNum)) {
+        return res.status(409).json({
+          message: "Number length must be exactly 11!",
+        });
+      }
       user.MobileNum = body.MobileNum || user.MobileNum;
       user.gender = body.gender || user.gender;
 
